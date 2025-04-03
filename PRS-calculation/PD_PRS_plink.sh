@@ -26,7 +26,7 @@ fi
 
 ## modify bim file into chr:pos format
 module load scipy-stack/2020a python/3.8.10
-python /lustre03/project/6004655/COMMUN/runs/lang/scripts/convert_bim_idto_chr_pos.py ${bfile_prefix} ${out}
+python scripts/convert_bim_idto_chr_pos.py ${bfile_prefix} ${out}
 
 ## run plink2
 module load nixpkgs/16.09 StdEnv/2020 plink/2.00-10252019-avx2
@@ -98,4 +98,4 @@ plink \
 
 # calculate zscore
 module load scipy-stack/2020a python/3.8.10
-python /home/liulang/lang/scripts/PRS/calculate_zscore_PRScs_PLINK2.py ${out} ${name}
+python calculate_zscore_PRScs_PLINK2.py ${out} ${name}
