@@ -17,7 +17,7 @@ name=$4
 ## 2. no clumping
 ## the snp in gwas file is renamed into chr:pos format
 ## gwas file is cut, only 3 columns left
-## base=/lustre03/project/6004655/COMMUN/runs/eyu8/data/PRS/PD/UKB/meta5_hg38_chr_pos.tab
+## base=meta5_hg38_chr_pos.tab
 if [ -f $base ];then 
 echo "the summary stat file for PD $base is present"
 else
