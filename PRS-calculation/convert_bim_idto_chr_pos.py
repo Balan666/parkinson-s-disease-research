@@ -12,9 +12,9 @@ if __name__ == "__main__":
     input_dir = sys.argv[2]
     
     file_name = f"{bim_file}.bim"
-        file_path = os.path.join(input_dir, file_name)
-        if not os.path.exists(file_path):
-            print("bim file path not found, snp id convertation halted")
+    file_path = os.path.join(input_dir, file_name)
+    if not os.path.exists(file_path):
+        print("bim file path not found, snp id convertation halted")
 
     
     # Modifying snp IDs in bim file (rsIDs into chr:pos format)
