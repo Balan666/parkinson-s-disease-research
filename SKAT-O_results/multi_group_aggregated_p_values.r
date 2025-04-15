@@ -42,10 +42,7 @@ for (PREFIX in c('PRS_bottom_25', 'PRS_top_25')) {
         all_chr_aggregated <- rbind(all_chr_aggregated, merged)
         all_chr_aggregated <- all_chr_aggregated %>%
           arrange(all_chr_aggregated[2:5])
-        all_chr_aggregated <- na.omit(all_chr_aggregated) #%>%
-          #filter((CADD.x < 0.05) & (ENCODE.x < 0.05)  & (nonsyn.x < 0.05))
-        #all_chr_aggregated <- all_chr_aggregated[rowSums(is.na(all_chr_aggregated)) != ncol(all_chr_aggregated),]
-        
+        all_chr_aggregated <- na.omit(all_chr_aggregated) 
       } else {
         cat("Not enough valid tables to merge for", PREFIX, "chr", CHR, "\n")
       }
@@ -56,6 +53,6 @@ for (PREFIX in c('PRS_bottom_25', 'PRS_top_25')) {
   }
   
   output_file <- paste0("/home/balan/Documents/PRS/results/SKAT-O_AMP_PD/", PREFIX, "_multi_group_fdr_table.txt")
-  #write.table(all_chr_aggregated, output_file, sep = "\t", row.names = FALSE, quote = FALSE)
+  write.table(all_chr_aggregated, output_file, sep = "\t", row.names = FALSE, quote = FALSE)
 }
 
