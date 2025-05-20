@@ -8,10 +8,6 @@ To further clarify the role of rare variants in PD risk, we prepared the dataset
 
 This workflow allows the integration of PRS-based stratification with rare variant burden testing, thereby allowing us to find both common and rare variants with potential cumulative effects on PD, thereby paving the way for enhanced insights into disease pathogenesis and potential therapeutic targets.
 
-The process consists of two different parts:
-1. PRS analysis
-2. SKAT-O analysis
-
 Requirements:
 
 * PLINK v1.90b6.21 64-bit (19 Oct 2020)
@@ -19,7 +15,11 @@ Requirements:
 * ANNOVAR with ljb26_all database
 * GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)
 
-To run PRS analysis the script `PD_PRS_plink.sh` should be used:
+The process consists of two different parts:
+1. PRS analysis
+2. SKAT-O analysis
+
+To run PRS analysis the script `PD_PRS_plink.sh` should be used with GWAS data (Nalls et al., 2019):
 
 ```bash
 # how to use
