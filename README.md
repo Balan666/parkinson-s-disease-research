@@ -1,6 +1,6 @@
 # Discovering New Disease-Associated SNPs through Stratified Polygenic Risk Scores for Parkinson's Disease
 
-n recent years genome-association studies (GWAS) have provided us with crucial data and novel information about the genetic background of many complex diseases, such as Parkinson's disease (PD). To find novel genes involved in, we conducted a polygenic risk score (PRS) analysis using GWAS summary statistics derived from the Accelerating Medicines Partnership Parkinson's Disease (AMP-PD) dataset. PRS analysis was then used to perform stratification of samples based on their genetic risk. To account for the population structure and some other factors, principal components and additional covariates were included in the PRS calculation process.
+In recent years genome-association studies (GWAS) have provided us with crucial data and novel information about the genetic background of many complex diseases, such as Parkinson's disease (PD). To find novel genes involved in, we conducted a polygenic risk score (PRS) analysis using GWAS summary statistics derived from the Accelerating Medicines Partnership Parkinson's Disease (AMP-PD) dataset. PRS analysis was then used to perform stratification of samples based on their genetic risk. To account for the population structure and some other factors, principal components and additional covariates were included in the PRS calculation process.
 
 To further clarify the role of rare variants in PD risk, we prepared the dataset for a subsequent burden analysis using the SKAT-O (Sequence Kernel Association Test - Optimal) framework. Genotype data were processed to identify individuals in the top and bottom 25th percentile of the PRS distribution, enabling a comparative analysis between these groups.
 
@@ -32,3 +32,5 @@ SKAT-O analysis is run by [`main.sh`](http://main.sh) pipeline and includes proc
 # how to use
 ## bash main.sh
 ```
+pay attention that PRS data should be present and fids for the certain groups of patients have to be formed based on PRS scores. This is done separately with `filter_genomes.r` script.
+the results for SKAT-O will be found in SKAT_AMP_PD directory. After that results were aggregated and FDR was applied.
