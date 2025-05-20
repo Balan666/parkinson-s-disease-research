@@ -11,7 +11,7 @@ if (length(args) == 0) {
   stop("No input prefix provided. Exiting.")
 }
 
-wd <- "~/runs/senkkon/2025/AMP_PD_PRS/SKAT-O_run_ver2/"
+wd <- "./SKAT-O_run_ver2/"
 setwd(wd)
 
 cohort <- args[1]  # Input prefix
