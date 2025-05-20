@@ -12,6 +12,13 @@ The process consists of two different parts:
 1. PRS analysis
 2. SKAT-O analysis
 
+Requirements:
+
+* PLINK v1.90b6.21 64-bit (19 Oct 2020)
+* R version 4.4.1 (2024-06-14)
+* ANNOVAR with ljb26_all database
+* GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)
+
 To run PRS analysis the script `PD_PRS_plink.sh` should be used:
 
 ```bash
