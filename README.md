@@ -41,3 +41,15 @@ SKAT-O analysis is run by [`main.sh`](http://main.sh) pipeline and includes proc
 ```
 pay attention that PRS data should be present and fids for the certain groups of patients have to be formed based on PRS scores. This is done separately with `filter_genomes.r` script.
 the results for SKAT-O will be found in SKAT_AMP_PD directory. After that results were aggregated and FDR was applied.
+
+Basically pipeline looks like this:
+```
+cd PRS-calculation
+bash PD_PRS.sh $base $bfile_prefix $out $name
+
+cd SKAT-O
+Rscript filter_genomes1.r
+bash main.sh
+Rscript aggregate_results.r
+```
+all the main processes are ran inside the activated pipelines
