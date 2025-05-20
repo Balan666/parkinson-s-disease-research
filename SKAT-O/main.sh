@@ -1,17 +1,15 @@
 #!/bin/bash
 
-mkdir -p SKAT_AMP_PD
 echo "loading modules"
 module load nixpkgs/16.09 StdEnv/2020 plink/2.00-10252019-avx2
 module load r/4.0.2
 
-echo "filtering genomes based on PRS"
+plink --bfile ../AMP_PD_FILTERED_ALL_CHR --keep ./inter_files/PRS_top_25_fids.txt --make-bed --recode vcf --out ./inter_files/PRS_top_25
+plink --bfile ../AMP_PD_FILTERED_ALL_CHR --keep ./inter_files/PRS_bottom_25_fids.txt --make-bed --recode vcf --out ./inter_files/PRS_bottom_25
 
-#plink --bfile ../AMP_PD_FILTERED_ALL_CHR --keep ./inter_files/PRS_top_25_fids.txt --make-bed --recode vcf --out ./inter_files/PRS_top_25
-#plink --bfile ../AMP_PD_FILTERED_ALL_CHR --keep ./inter_files/PRS_bottom_25_fids.txt --make-bed --recode vcf --out ./inter_files/PRS_bottom_25
+mkdir -p SKAT_AMP_PD
 
-
-ANNOVAR_DIR=~/runs/senkkon/ANNOVAR/annovar
+ANNOVAR_DIR=..//annovar
 HUMANDB=${ANNOVAR_DIR}/humandb
 SPLIT_DIR="./inter_files"
 FILTER_DIR="./filtered_snp"
@@ -24,11 +22,12 @@ mkdir -p "$FILTER_DIR"
 
 for PREFIX in "${VCF_FILES[@]}"; do
     SPLIT_PATH="${SPLIT_DIR}/${PREFIX}_split"
+    mkdir -p $SPLIT_PATH
     
     for CHR in "${CHROMS[@]}"; do
         CHR_VCF="${SPLIT_PATH}/${PREFIX}_chr${CHR}.vcf"
         ANN_OUTPUT="${SPLIT_PATH}/${PREFIX}_chr${CHR}.out.annovar.hg38_multianno.txt"
-        
+	
         # Extract header and chromosome-specific variants
         grep "^#" ./inter_files/${PREFIX}.vcf > "$CHR_VCF"
         grep -w "^$CHR" ./inter_files/${PREFIX}.vcf >> "$CHR_VCF"
@@ -61,15 +60,17 @@ for PREFIX in "${VCF_FILES[@]}"; do
             awk -F "\t" '{ if (NR==1 || $6 == "exonic") print $84"\t"$1"\t"$2"\t"$4"\t"$5"\t"$7}' "$ANN_OUTPUT" > "$FILTER_ENCODE"
             awk -F "\t" '{ if (NR==1 || $31 >= 20) print $84"\t"$1"\t"$2"\t"$4"\t"$5"\t"$7}' "$ANN_OUTPUT" > "$FILTER_CADD"
 
+            echo "filtered $ANN_OUTPUT annotation"
             # Run PLINK filtering for each category
             for CATEGORY in "nonsyn" "LOF" "ENCODE" "CADD"; do
-                PLINK_INPUT="${SPLIT_PATH}/${PREFIX}_chr${CHR}"
+                PLINK_INPUT="${SPLIT_DIR}/${PREFIX}"
                 PLINK_OUTPUT="${FILTER_DIR}/${PREFIX}_chr${CHR}.${CATEGORY}"
                 FILTER_FILE="${FILTER_DIR}/${PREFIX}_chr${CHR}.${CATEGORY}.txt"
 
                 if [ -s "$FILTER_FILE" ]; then
                     plink --bfile "$PLINK_INPUT" --extract "$FILTER_FILE" --make-bed --out "$PLINK_OUTPUT"
-                    
+                    echo "$PLINK_OUTPUT made"
+
                     echo "filtering covariances"
                     Rscript filter_cov.r "${PLINK_OUTPUT}.fam"
                     
@@ -77,7 +78,7 @@ for PREFIX in "${VCF_FILES[@]}"; do
                     Rscript make_SetID.r "$FILTER_FILE"
                     
                     echo "Running SKAT-O"
-                    Rscript SKAT.R "$(basename $PLINK_OUTPUT)"
+                    Rscript SKAT_TMEM16F.R "$(basename $PLINK_OUTPUT)"
                 else
                     echo "Skipping PLINK for ${CATEGORY}, no variants found."
                 fi
@@ -90,5 +91,4 @@ for PREFIX in "${VCF_FILES[@]}"; do
 done
 
 echo "Processing complete."
-
 
